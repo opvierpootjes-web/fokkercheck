@@ -347,7 +347,7 @@ function StartScreen({ onStart }) {
           {THEMES.map((t, i) => (
             <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 12, paddingBottom: i < THEMES.length - 1 ? 10 : 0, marginBottom: i < THEMES.length - 1 ? 10 : 0, borderBottom: i < THEMES.length - 1 ? '1px solid #f0ece6' : 'none' }}>
               <div style={{ width: 24, height: 24, borderRadius: '50%', border: `1.5px solid ${C.copperLight}`, color: C.copper, fontWeight: 700, fontSize: 11, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{i + 1}</div>
-              <span style={{ fontSize: 13, color: '#374151' }}>{t.name}</span>
+              <span style={{ fontSize: 15, fontWeight: 500, color: '#1a1a1a' }}>{t.name}</span>
             </div>
           ))}
         </div>
