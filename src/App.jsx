@@ -328,15 +328,18 @@ function StartScreen({ onStart }) {
   return (
     <div style={{ minHeight: '100vh', background: '#f7f5f2', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark }}>
       <div style={{ background: C.copperLight, padding: '32px 28px 28px', textAlign: 'center' }}>
-        <p style={{ margin: '0 0 8px', fontSize: 13, color: 'rgba(255,255,255,0.92)', lineHeight: 1.5 }}>Betrouwbare fokker of niet?</p>
-        <h1 style={{ margin: '0 0 14px', fontSize: 22, fontWeight: 800, color: '#fff', letterSpacing: '-0.01em' }}>Doe de gratis fokker check</h1>
-        <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.88)', lineHeight: 1.65, maxWidth: 380, marginLeft: 'auto', marginRight: 'auto' }}>
+        <a href="https://www.opvierpootjes.nl" style={{ display: 'inline-block', marginBottom: 14, fontSize: 12, color: 'rgba(0,0,0,0.5)', textDecoration: 'none', letterSpacing: '0.02em' }}>
+          ← opvierpootjes.nl
+        </a>
+        <p style={{ margin: '0 0 8px', fontSize: 13, color: '#1a1a1a', lineHeight: 1.5 }}>Betrouwbare fokker of niet?</p>
+        <h1 style={{ margin: '0 0 14px', fontSize: 22, fontWeight: 800, color: '#1a1a1a', letterSpacing: '-0.01em' }}>Doe de gratis fokker check</h1>
+        <p style={{ margin: 0, fontSize: 13, color: '#1a1a1a', lineHeight: 1.65, maxWidth: 380, marginLeft: 'auto', marginRight: 'auto' }}>
           Beantwoord een korte reeks vragen en krijg een duidelijke inschatting: lijkt deze fokker zorgvuldig, zijn er aandachtspunten, of zie je rode vlaggen?
         </p>
       </div>
       <div style={{ padding: '24px 20px 48px', maxWidth: 480, margin: '0 auto' }}>
         <button onClick={onStart}
-          style={{ fontFamily: 'inherit', display: 'block', width: '100%', background: C.grey, color: '#fff', fontSize: 14, fontWeight: 700, padding: '14px 24px', borderRadius: 8, border: 'none', cursor: 'pointer', marginBottom: 20, letterSpacing: '0.01em', transition: 'opacity 0.2s' }}
+          style={{ fontFamily: 'inherit', display: 'block', width: '100%', background: '#8b7752', color: '#fff', fontSize: 14, fontWeight: 700, padding: '14px 24px', borderRadius: 8, border: 'none', cursor: 'pointer', marginBottom: 20, letterSpacing: '0.01em', transition: 'opacity 0.2s' }}
           onMouseOver={e => e.currentTarget.style.opacity = '0.85'} onMouseOut={e => e.currentTarget.style.opacity = '1'}>
           Start de check
         </button>
@@ -376,7 +379,7 @@ function ThemeScreen({ theme, idx, total, answers, onAns, onNext, onPrev }) {
         </div>
         <LiveBadge answers={answers} />
       </div>
-      <div style={{ background: C.copperLight, color: '#fff', padding: '18px 20px 16px' }}>
+      <div style={{ background: C.copperLight, color: '#1a1a1a', padding: '18px 20px 16px' }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800 }}>{theme.name}</h2>
       </div>
       <div style={{ flex: 1, padding: '14px 16px 8px', maxWidth: 600, margin: '0 auto', width: '100%' }}>
@@ -388,7 +391,7 @@ function ThemeScreen({ theme, idx, total, answers, onAns, onNext, onPrev }) {
         <div style={{ display: 'flex', gap: 10, maxWidth: 600, margin: '0 auto' }}>
           <button onClick={onPrev} style={{ fontFamily: 'inherit', flexShrink: 0, padding: '10px 18px', borderRadius: 8, border: '1.5px solid #e8e3db', background: '#fff', color: C.grey, fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>Vorige</button>
           <button onClick={onNext} disabled={!allDone}
-            style={{ fontFamily: 'inherit', flex: 1, padding: '10px 18px', borderRadius: 8, border: 'none', background: allDone ? C.grey : '#e5e7eb', color: allDone ? '#fff' : '#9ca3af', fontWeight: 700, fontSize: 13, cursor: allDone ? 'pointer' : 'default', transition: 'opacity 0.2s' }}
+            style={{ fontFamily: 'inherit', flex: 1, padding: '10px 18px', borderRadius: 8, border: 'none', background: allDone ? '#8b7752' : '#e5e7eb', color: allDone ? '#fff' : '#9ca3af', fontWeight: 700, fontSize: 13, cursor: allDone ? 'pointer' : 'default', transition: 'opacity 0.2s' }}
             onMouseOver={e => allDone && (e.currentTarget.style.opacity = '0.85')} onMouseOut={e => (e.currentTarget.style.opacity = '1')}>
             {isLast ? 'Bekijk uitslag' : 'Volgende thema'}
           </button>
@@ -489,7 +492,11 @@ function ResultScreen({ answers, onRestart }) {
         </div>
 
         <button onClick={onRestart} style={{ fontFamily: 'inherit', width: '100%', background: '#fff', color: C.grey, fontSize: 13, fontWeight: 600, padding: '11px 24px', borderRadius: 8, border: '1.5px solid #e8e3db', cursor: 'pointer', marginTop: 4 }}>Opnieuw beginnen</button>
-        <p style={{ textAlign: 'center', fontSize: 11, color: C.copperLight, marginTop: 16, fontWeight: 700, letterSpacing: '0.04em' }}>Op Vier Pootjes · opvierpootjes.nl</p>
+        <p style={{ textAlign: 'center', marginTop: 16 }}>
+          <a href="https://www.opvierpootjes.nl" style={{ fontSize: 11, color: C.copperLight, fontWeight: 700, letterSpacing: '0.04em', textDecoration: 'none' }}>
+            ← Terug naar opvierpootjes.nl
+          </a>
+        </p>
       </div>
     </div>
   );
