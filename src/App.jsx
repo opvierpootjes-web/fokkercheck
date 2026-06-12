@@ -234,7 +234,7 @@ function QuestionCard({ q, ans, onAns }) {
         )}
 
         {/* Vraagtekst */}
-        <p style={{ margin: '0 0 12px', fontSize: 14, lineHeight: 1.65, fontWeight: isBad ? 600 : 400, color: C.dark }}>
+        <p style={{ margin: '0 0 12px', fontSize: 16, lineHeight: 1.7, fontWeight: isBad ? 600 : 500, color: C.dark }}>
           {q.text}
         </p>
 
@@ -326,9 +326,10 @@ function LiveBadge({ answers }) {
 // ── Startscherm ───────────────────────────────────────────────
 function StartScreen({ onStart }) {
   return (
-    <div style={{ minHeight: '100vh', background: '#f7f5f2', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark }}>
-      <div style={{ background: C.copperLight, padding: '32px 28px 28px', textAlign: 'center' }}>
-        <a href="https://www.opvierpootjes.nl" style={{ display: 'inline-block', marginBottom: 14, fontSize: 12, color: 'rgba(0,0,0,0.5)', textDecoration: 'none', letterSpacing: '0.02em' }}>
+    <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark }}>
+      <div style={{ maxWidth: 560, margin: '0 auto' }}>
+      <div style={{ background: C.copperLight, padding: '28px 24px 24px', textAlign: 'center' }}>
+        <a href="https://www.opvierpootjes.nl" style={{ display: 'inline-block', marginBottom: 14, fontSize: 11, color: 'rgba(0,0,0,0.45)', textDecoration: 'none', letterSpacing: '0.02em' }}>
           ← opvierpootjes.nl
         </a>
         <p style={{ margin: '0 0 8px', fontSize: 13, color: '#1a1a1a', lineHeight: 1.5 }}>Betrouwbare fokker of niet?</p>
@@ -337,7 +338,7 @@ function StartScreen({ onStart }) {
           Beantwoord een korte reeks vragen en krijg een duidelijke inschatting: lijkt deze fokker zorgvuldig, zijn er aandachtspunten, of zie je rode vlaggen?
         </p>
       </div>
-      <div style={{ padding: '24px 20px 48px', maxWidth: 480, margin: '0 auto' }}>
+      <div style={{ padding: '20px 20px 48px' }}>
         <button onClick={onStart}
           style={{ fontFamily: 'inherit', display: 'block', width: '100%', background: '#8b7752', color: '#fff', fontSize: 14, fontWeight: 700, padding: '14px 24px', borderRadius: 8, border: 'none', cursor: 'pointer', marginBottom: 20, letterSpacing: '0.01em', transition: 'opacity 0.2s' }}
           onMouseOver={e => e.currentTarget.style.opacity = '0.85'} onMouseOut={e => e.currentTarget.style.opacity = '1'}>
@@ -362,6 +363,7 @@ function StartScreen({ onStart }) {
         </div>
         <p style={{ textAlign: 'center', fontSize: 11, color: C.grey, marginTop: 16 }}>{ALL_Q.length} vragen · ca. 5 minuten</p>
       </div>
+      </div>
     </div>
   );
 }
@@ -371,7 +373,7 @@ function ThemeScreen({ theme, idx, total, answers, onAns, onNext, onPrev }) {
   const allDone = theme.questions.every(q => !!answers[q.id]);
   const isLast  = idx === total - 1;
   return (
-    <div style={{ minHeight: '100vh', background: '#f7f5f2', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark, display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark, display: 'flex', flexDirection: 'column' }}>
       <div style={{ position: 'sticky', top: 0, zIndex: 20, background: '#fff', borderBottom: '1px solid #e8e3db', padding: '10px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <StepDots current={idx} total={total} />
@@ -420,7 +422,7 @@ function ResultScreen({ answers, onRestart }) {
   const followItems = [...hard, ...soft].filter(q => q.follow);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f7f5f2', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark }}>
+    <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark }}>
       <div style={{ background: L.headerBg, color: '#fff', padding: '28px 24px 22px', textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10, marginBottom: 8 }}>
           <div style={{ width: 12, height: 12, borderRadius: '50%', background: L.dot, border: '2px solid rgba(255,255,255,0.5)' }} />
@@ -492,11 +494,7 @@ function ResultScreen({ answers, onRestart }) {
         </div>
 
         <button onClick={onRestart} style={{ fontFamily: 'inherit', width: '100%', background: '#fff', color: C.grey, fontSize: 13, fontWeight: 600, padding: '11px 24px', borderRadius: 8, border: '1.5px solid #e8e3db', cursor: 'pointer', marginTop: 4 }}>Opnieuw beginnen</button>
-        <p style={{ textAlign: 'center', marginTop: 16 }}>
-          <a href="https://www.opvierpootjes.nl" style={{ fontSize: 11, color: C.copperLight, fontWeight: 700, letterSpacing: '0.04em', textDecoration: 'none' }}>
-            ← Terug naar opvierpootjes.nl
-          </a>
-        </p>
+        <a href="https://www.opvierpootjes.nl" style={{ display: 'block', textAlign: 'center', background: '#fff', color: C.copperMid, border: '1.5px solid ' + C.copperMid, borderRadius: 8, padding: '11px 24px', fontSize: 13, fontWeight: 700, textDecoration: 'none', marginTop: 8 }}>← Terug naar opvierpootjes.nl</a>
       </div>
     </div>
   );
