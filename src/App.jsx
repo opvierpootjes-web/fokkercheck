@@ -327,7 +327,6 @@ function LiveBadge({ answers }) {
 function StartScreen({ onStart }) {
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark }}>
-      <div style={{ maxWidth: 560, margin: '0 auto' }}>
       <div style={{ background: C.copperLight, padding: '28px 24px 24px', textAlign: 'center' }}>
         <a href="https://www.opvierpootjes.nl" style={{ display: 'inline-block', marginBottom: 14, fontSize: 11, color: 'rgba(0,0,0,0.45)', textDecoration: 'none', letterSpacing: '0.02em' }}>
           ← opvierpootjes.nl
@@ -338,7 +337,7 @@ function StartScreen({ onStart }) {
           Beantwoord een korte reeks vragen en krijg een duidelijke inschatting: lijkt deze fokker zorgvuldig, zijn er aandachtspunten, of zie je rode vlaggen?
         </p>
       </div>
-      <div style={{ padding: '20px 20px 48px' }}>
+      <div style={{ padding: '20px 20px 48px', maxWidth: 480, margin: '0 auto' }}>
         <button onClick={onStart}
           style={{ fontFamily: 'inherit', display: 'block', width: '100%', background: '#8b7752', color: '#fff', fontSize: 14, fontWeight: 700, padding: '14px 24px', borderRadius: 8, border: 'none', cursor: 'pointer', marginBottom: 20, letterSpacing: '0.01em', transition: 'opacity 0.2s' }}
           onMouseOver={e => e.currentTarget.style.opacity = '0.85'} onMouseOut={e => e.currentTarget.style.opacity = '1'}>
