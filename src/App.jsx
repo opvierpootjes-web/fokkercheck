@@ -362,7 +362,6 @@ function StartScreen({ onStart }) {
         </div>
         <p style={{ textAlign: 'center', fontSize: 11, color: C.grey, marginTop: 16 }}>{ALL_Q.length} vragen · ca. 5 minuten</p>
       </div>
-      </div>
     </div>
   );
 }
