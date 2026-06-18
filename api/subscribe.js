@@ -1,4 +1,4 @@
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -38,7 +38,6 @@ module.exports = async function handler(req, res) {
     const data = await response.json().catch(() => ({}));
     console.log('[subscribe] MailerLite status:', response.status, JSON.stringify(data));
 
-    // 200/201 = aangemeld, 409 = al ingeschreven — beide OK
     if (response.ok || response.status === 409) {
       return res.status(200).json({ success: true });
     }
@@ -49,4 +48,4 @@ module.exports = async function handler(req, res) {
     console.error('[subscribe] Serverfout:', err.message);
     return res.status(500).json({ error: 'Serverfout' });
   }
-};
+}
