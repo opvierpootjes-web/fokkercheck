@@ -592,14 +592,20 @@ function OptinScreen({ onSuccess, onSkip }) {
     if (!isValid) { setError('Vul een geldig e-mailadres in.'); return; }
     setError('');
     setLoading(true);
-    if (OPTIN_WEBHOOK_URL) {
-      try {
-        await fetch(OPTIN_WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, source: 'fokkercheck', timestamp: new Date().toISOString() }),
-        });
-      } catch (_) {}
+    try {
+      const res = await fetch(OPTIN_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'fokkercheck', timestamp: new Date().toISOString() }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `Fout ${res.status}`);
+      }
+    } catch (err) {
+      setLoading(false);
+      setError('Er ging iets mis. Probeer het opnieuw of sla dit stap over.');
+      return;
     }
     setLoading(false);
     setSubmitted(true);
