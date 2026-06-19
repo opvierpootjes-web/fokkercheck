@@ -203,7 +203,7 @@ function AnsBtn({ val, label, q, ans, onAns }) {
     else { bg = C.orange; color = '#fff'; border = `1.5px solid ${C.orange}`; }
   }
   return (
-    <button onClick={() => onAns(q.id, val)} style={{ fontFamily: 'inherit', fontSize: 13, fontWeight: 600, padding: '7px 20px', borderRadius: 7, border, background: bg, color, cursor: 'pointer', transition: 'all 0.15s ease' }}>
+    <button onClick={() => onAns(q.id, val)} style={{ fontFamily: 'inherit', fontSize: 12, fontWeight: 600, padding: '5px 16px', borderRadius: 6, border, background: bg, color, cursor: 'pointer', transition: 'all 0.15s ease' }}>
       {label}
     </button>
   );
@@ -219,41 +219,41 @@ function QuestionCard({ q, ans, onAns }) {
     <div style={{ ...CARD_S[s], borderRadius: 10, overflow: 'hidden', transition: 'border-color 0.2s ease, background 0.2s ease' }}>
 
       {/* Kaartinhoud */}
-      <div style={{ padding: '14px 16px' }}>
+      <div style={{ padding: '10px 12px' }}>
 
         {/* Badge */}
         {s === 'hard' && (
-          <div style={{ display: 'inline-block', background: '#c0392b', color: '#fff', fontSize: 10, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '2px 9px', borderRadius: 4, marginBottom: 10 }}>
+          <div style={{ display: 'inline-block', background: '#c0392b', color: '#fff', fontSize: 9, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '2px 8px', borderRadius: 4, marginBottom: 6 }}>
             Rode vlag
           </div>
         )}
         {s === 'soft' && (
-          <div style={{ display: 'inline-block', background: C.orange, color: '#fff', fontSize: 10, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '2px 9px', borderRadius: 4, marginBottom: 10 }}>
+          <div style={{ display: 'inline-block', background: C.orange, color: '#fff', fontSize: 9, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '2px 8px', borderRadius: 4, marginBottom: 6 }}>
             Aandachtspunt
           </div>
         )}
 
         {/* Vraagtekst */}
-        <p style={{ margin: '0 0 12px', fontSize: 16, lineHeight: 1.7, fontWeight: isBad ? 600 : 500, color: C.dark }}>
+        <p style={{ margin: '0 0 9px', fontSize: 14, lineHeight: 1.55, fontWeight: isBad ? 600 : 500, color: C.dark }}>
           {q.text}
         </p>
 
         {/* Ja / Nee */}
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 6 }}>
           <AnsBtn val="ja"  label="Ja"  q={q} ans={ans} onAns={onAns} />
           <AnsBtn val="nee" label="Nee" q={q} ans={ans} onAns={onAns} />
         </div>
 
         {/* Toelichting bij slecht antwoord */}
         {isBad && (
-          <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px solid ${s === 'hard' ? '#f5b8b8' : C.orangeBorder}`, fontSize: 12, lineHeight: 1.7, color: s === 'hard' ? '#9b2222' : C.orangeDark }}>
+          <div style={{ marginTop: 9, paddingTop: 9, borderTop: `1px solid ${s === 'hard' ? '#f5b8b8' : C.orangeBorder}`, fontSize: 11, lineHeight: 1.6, color: s === 'hard' ? '#9b2222' : C.orangeDark }}>
             {q.flagText}
           </div>
         )}
 
         {/* Bevestiging bij goed antwoord */}
         {s === 'good' && (
-          <div style={{ marginTop: 8, fontSize: 12, fontWeight: 700, color: '#16a34a' }}>Goed teken</div>
+          <div style={{ marginTop: 6, fontSize: 11, fontWeight: 700, color: '#16a34a' }}>Goed teken</div>
         )}
       </div>
 
@@ -438,8 +438,8 @@ function ThemeScreen({ theme, idx, total, answers, onAns, onNext, onPrev }) {
       <div style={{ background: C.copperLight, color: '#1a1a1a', padding: '18px 20px 16px' }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800 }}>{theme.name}</h2>
       </div>
-      <div style={{ flex: 1, padding: '14px 16px 8px', maxWidth: 600, margin: '0 auto', width: '100%' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ flex: 1, padding: '10px 12px 8px', maxWidth: 600, margin: '0 auto', width: '100%' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
           {theme.questions.map(q => <QuestionCard key={q.id} q={q} ans={answers} onAns={onAns} />)}
         </div>
       </div>
@@ -581,12 +581,13 @@ const OPTIN_WEBHOOK_URL = '/api/subscribe';
 
 // ── Opt-in scherm ─────────────────────────────────────────────
 function OptinScreen({ onSuccess, onSkip }) {
+  const [name,      setName]      = useState('');
   const [email,     setEmail]     = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading,   setLoading]   = useState(false);
   const [error,     setError]     = useState('');
 
-  const isValid = email.includes('@') && email.includes('.');
+  const isValid = name.trim().length > 0 && email.includes('@') && email.includes('.');
 
   const handleSubmit = async () => {
     if (!isValid) { setError('Vul een geldig e-mailadres in.'); return; }
@@ -596,7 +597,7 @@ function OptinScreen({ onSuccess, onSkip }) {
       const res = await fetch(OPTIN_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'fokkercheck', timestamp: new Date().toISOString() }),
+        body: JSON.stringify({ name: name.trim(), email, source: 'fokkercheck', timestamp: new Date().toISOString() }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -621,36 +622,52 @@ function OptinScreen({ onSuccess, onSkip }) {
       </div>
 
       {/* Inhoud */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '32px 20px 48px' }}>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '20px 16px 32px' }}>
         <div style={{ width: '100%', maxWidth: 480 }}>
 
           {/* Kaart */}
-          <div style={{ background: C.stone, border: `1px solid ${C.stoneBorder}`, borderRadius: 16, padding: '32px 28px', boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}>
+          <div style={{ background: C.stone, border: `1px solid ${C.stoneBorder}`, borderRadius: 14, padding: '22px 22px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
 
-            {/* Icoon */}
-            <div style={{ width: 44, height: 44, borderRadius: '50%', background: C.copperLight, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20, fontSize: 20 }}>
-              📋
+            {/* Icoon + titel op één rij */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+              <div style={{ width: 34, height: 34, borderRadius: '50%', background: C.copperLight, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 16 }}>
+                📋
+              </div>
+              <h2 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: C.dark, lineHeight: 1.25 }}>
+                Ontvang de complete gids
+              </h2>
             </div>
 
-            <h2 style={{ margin: '0 0 14px', fontSize: 20, fontWeight: 800, color: C.dark, lineHeight: 1.3 }}>
-              Ontvang de complete gids
-            </h2>
-
-            <p style={{ margin: '0 0 10px', fontSize: 14, color: '#374151', lineHeight: 1.75 }}>
-              Je hebt nu een eerste indruk gekregen van mogelijke aandachtspunten en signalen.
+            <p style={{ margin: '0 0 8px', fontSize: 13, color: '#000', lineHeight: 1.65 }}>
+              Je hebt nu een eerste indruk gekregen van mogelijke aandachtspunten en signalen. Wil je beter begrijpen waar je op kunt letten tijdens je zoektocht naar een pup?
             </p>
-            <p style={{ margin: '0 0 10px', fontSize: 14, color: '#374151', lineHeight: 1.75 }}>
-              Wil je beter begrijpen waar je op kunt letten tijdens je zoektocht naar een pup?
-            </p>
-            <p style={{ margin: '0 0 24px', fontSize: 14, color: '#374151', lineHeight: 1.75 }}>
-              Vraag dan de gratis gids aan. Hierin vind je praktische uitleg, checklists, vragen voor fokkers, aandachtspunten, rode vlaggen en handige formulieren om fokkers met elkaar te vergelijken.
+            <p style={{ margin: '0 0 16px', fontSize: 13, color: '#000', lineHeight: 1.65 }}>
+              Vraag de gratis gids aan — met praktische uitleg, checklists, vragen voor fokkers en handige formulieren om fokkers te vergelijken.
             </p>
 
             {!submitted ? (
               <>
-                <p style={{ margin: '0 0 12px', fontSize: 13, fontWeight: 600, color: C.dark }}>
-                  Vul hieronder je e-mailadres in en ontvang de gids direct in je mailbox.
-                </p>
+                {/* Voornaam */}
+                <input
+                  type="text"
+                  placeholder="Voornaam"
+                  value={name}
+                  onChange={e => { setName(e.target.value); setError(''); }}
+                  onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+                  style={{
+                    fontFamily: 'inherit',
+                    width: '100%',
+                    padding: '10px 12px',
+                    borderRadius: 8,
+                    border: `1.5px solid ${C.stoneBorder}`,
+                    fontSize: 13,
+                    marginBottom: 8,
+                    boxSizing: 'border-box',
+                    background: '#fff',
+                    color: C.dark,
+                    outline: 'none',
+                  }}
+                />
 
                 {/* E-mailinvoer */}
                 <input
@@ -662,11 +679,11 @@ function OptinScreen({ onSuccess, onSkip }) {
                   style={{
                     fontFamily: 'inherit',
                     width: '100%',
-                    padding: '12px 14px',
-                    borderRadius: 9,
+                    padding: '10px 12px',
+                    borderRadius: 8,
                     border: error ? '1.5px solid #e08080' : `1.5px solid ${C.stoneBorder}`,
-                    fontSize: 14,
-                    marginBottom: error ? 6 : 12,
+                    fontSize: 13,
+                    marginBottom: error ? 5 : 8,
                     boxSizing: 'border-box',
                     background: '#fff',
                     color: C.dark,
@@ -674,7 +691,7 @@ function OptinScreen({ onSuccess, onSkip }) {
                     transition: 'border-color 0.15s',
                   }}
                 />
-                {error && <p style={{ margin: '0 0 10px', fontSize: 12, color: '#c0392b' }}>{error}</p>}
+                {error && <p style={{ margin: '0 0 8px', fontSize: 12, color: '#c0392b' }}>{error}</p>}
 
                 {/* CTA-knop */}
                 <button
@@ -683,16 +700,16 @@ function OptinScreen({ onSuccess, onSkip }) {
                   style={{
                     fontFamily: 'inherit',
                     width: '100%',
-                    padding: '13px 20px',
-                    borderRadius: 9,
+                    padding: '11px 20px',
+                    borderRadius: 8,
                     border: 'none',
                     background: loading ? C.copperLight : C.copper,
                     color: '#fff',
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: 700,
                     cursor: loading ? 'default' : 'pointer',
                     transition: 'opacity 0.2s',
-                    marginBottom: 16,
+                    marginBottom: 6,
                     letterSpacing: '0.01em',
                   }}
                   onMouseOver={e => !loading && (e.currentTarget.style.opacity = '0.85')}
@@ -701,11 +718,16 @@ function OptinScreen({ onSuccess, onSkip }) {
                   {loading ? 'Even geduld…' : 'Ontvang de gids'}
                 </button>
 
+                {/* Spam-notitie */}
+                <p style={{ margin: '0 0 10px', fontSize: 11, color: '#000', lineHeight: 1.55, textAlign: 'center' }}>
+                  Controleer je spammap als je de mail niet direct ziet.
+                </p>
+
                 {/* Skip-link */}
                 <div style={{ textAlign: 'center' }}>
                   <button
                     onClick={onSkip}
-                    style={{ fontFamily: 'inherit', background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: C.grey, textDecoration: 'underline', padding: 0 }}
+                    style={{ fontFamily: 'inherit', background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#000', textDecoration: 'underline', padding: 0 }}
                   >
                     Nee bedankt, toon mijn uitslag
                   </button>
@@ -718,16 +740,16 @@ function OptinScreen({ onSuccess, onSkip }) {
                 <p style={{ margin: '0 0 6px', fontSize: 15, fontWeight: 700, color: C.copper }}>
                   Bedankt!
                 </p>
-                <p style={{ margin: '0 0 16px', fontSize: 13, color: '#374151', lineHeight: 1.65 }}>
+                <p style={{ margin: '0 0 16px', fontSize: 13, color: '#000', lineHeight: 1.65 }}>
                   De gids is onderweg naar je mailbox.
                 </p>
-                <p style={{ margin: 0, fontSize: 12, color: C.grey }}>Je uitslag wordt zo geladen…</p>
+                <p style={{ margin: 0, fontSize: 12, color: '#000' }}>Je uitslag wordt zo geladen…</p>
               </div>
             )}
           </div>
 
           {/* Privacy-notitie */}
-          <p style={{ textAlign: 'center', fontSize: 11, color: C.grey, marginTop: 16, lineHeight: 1.6 }}>
+          <p style={{ textAlign: 'center', fontSize: 11, color: '#000', marginTop: 16, lineHeight: 1.6 }}>
             Geen spam. Je kunt je altijd uitschrijven. Gegevens worden verwerkt conform de AVG.
           </p>
         </div>

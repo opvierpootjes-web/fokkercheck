@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email } = req.body || {};
+  const { email, name } = req.body || {};
   console.log('[subscribe] email ontvangen:', email ? 'ja' : 'nee');
 
   if (!email || !email.includes('@') || !email.includes('.')) {
@@ -20,6 +20,7 @@ export default async function handler(req, res) {
 
   const groupId = process.env.MAILERLITE_GROUP_ID;
   const body = { email };
+  if (name) body.fields = { name };
   if (groupId) body.groups = [groupId];
 
   console.log('[subscribe] MailerLite aanroepen voor:', email);
