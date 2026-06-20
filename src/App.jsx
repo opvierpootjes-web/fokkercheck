@@ -214,6 +214,7 @@ function QuestionCard({ q, ans, onAns }) {
   const [open, setOpen] = useState(false);
   const s = qStatus(q, ans);
   const isBad = s === 'hard' || s === 'soft';
+  const dividerColor = s === 'hard' ? '#f5b8b8' : s === 'soft' ? C.orangeBorder : s === 'good' ? '#c6f0d4' : '#e5e7eb';
 
   return (
     <div style={{ ...CARD_S[s], borderRadius: 10, overflow: 'hidden', transition: 'border-color 0.2s ease, background 0.2s ease' }}>
@@ -244,61 +245,50 @@ function QuestionCard({ q, ans, onAns }) {
           <AnsBtn val="nee" label="Nee" q={q} ans={ans} onAns={onAns} />
         </div>
 
-        {/* Toelichting bij slecht antwoord */}
-        {isBad && (
-          <div style={{ marginTop: 9, paddingTop: 9, borderTop: `1px solid ${s === 'hard' ? '#f5b8b8' : C.orangeBorder}`, fontSize: 11, lineHeight: 1.6, color: s === 'hard' ? '#9b2222' : C.orangeDark }}>
-            {q.flagText}
-          </div>
-        )}
-
         {/* Bevestiging bij goed antwoord */}
         {s === 'good' && (
           <div style={{ marginTop: 6, fontSize: 11, fontWeight: 700, color: '#16a34a' }}>Goed teken</div>
         )}
       </div>
 
-      {/* Accordion – alleen tonen als er een vervolgvraag is */}
-      {q.follow && (
-        <div style={{ borderTop: `1px solid ${s === 'hard' ? '#f5b8b8' : s === 'soft' ? C.orangeBorder : s === 'good' ? '#c6f0d4' : '#e5e7eb'}` }}>
+      {/* Altijd uitklapbare toelichting */}
+      <div style={{ borderTop: `1px solid ${dividerColor}` }}>
+        <button
+          onClick={() => setOpen(o => !o)}
+          style={{
+            fontFamily: 'inherit',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            padding: '8px 12px',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: 11,
+            fontWeight: 600,
+            color: C.copperMid,
+            textAlign: 'left',
+          }}
+        >
+          <span>Meer uitleg</span>
+          <span style={{ fontSize: 9, marginLeft: 8, transition: 'transform 0.2s', display: 'inline-block', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}>▼</span>
+        </button>
 
-          {/* Toggle-knop */}
-          <button
-            onClick={() => setOpen(o => !o)}
-            style={{
-              fontFamily: 'inherit',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              width: '100%',
-              padding: '9px 16px',
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: 12,
-              fontWeight: 600,
-              color: C.copperMid,
-              textAlign: 'left',
-            }}
-          >
-            <span>Mogelijke vervolgvragen</span>
-            <span style={{ fontSize: 10, marginLeft: 8, transition: 'transform 0.2s', display: 'inline-block', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}>▼</span>
-          </button>
-
-          {/* Uitklapinhoud */}
-          {open && (
-            <div style={{
-              padding: '0 16px 14px',
-              fontSize: 13,
-              lineHeight: 1.65,
-              color: '#374151',
-              borderTop: `1px solid ${s === 'hard' ? '#f5b8b8' : s === 'soft' ? C.orangeBorder : s === 'good' ? '#c6f0d4' : '#e5e7eb'}`,
-              paddingTop: 10,
-            }}>
-              {q.follow}
-            </div>
-          )}
-        </div>
-      )}
+        {open && (
+          <div style={{ padding: '0 12px 12px', borderTop: `1px solid ${dividerColor}` }}>
+            <p style={{ margin: '10px 0 0', fontSize: 11, lineHeight: 1.65, color: isBad ? (s === 'hard' ? '#9b2222' : C.orangeDark) : '#374151' }}>
+              {q.flagText}
+            </p>
+            {q.follow && (
+              <div style={{ marginTop: 10, paddingTop: 10, borderTop: `1px solid ${dividerColor}` }}>
+                <p style={{ margin: '0 0 3px', fontSize: 9, fontWeight: 700, color: C.copperMid, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Vraag aan de fokker</p>
+                <p style={{ margin: 0, fontSize: 11, lineHeight: 1.6, color: '#374151', fontStyle: 'italic' }}>{q.follow}</p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -465,6 +455,7 @@ function ThemeScreen({ theme, idx, total, answers, onAns, onNext, onPrev }) {
 // ── Uitslagscherm ─────────────────────────────────────────────
 function ResultScreen({ answers, onRestart }) {
   const { level, hard, soft } = calcScore(answers);
+  const skipped = ALL_Q.filter(q => !answers[q.id]).length;
   const LEVEL = {
     green:  { bg: '#f6fef9', border: '#86efac', headerBg: '#166534', headerText: 'Ziet er zorgvuldig uit',  lc: '#15803d', dot: '#16a34a' },
     orange: { bg: C.orangeBg, border: C.orangeBorder, headerBg: C.orangeDark, headerText: 'Er zijn aandachtspunten', lc: C.orangeDark, dot: C.orange },
@@ -495,6 +486,16 @@ function ResultScreen({ answers, onRestart }) {
         <div style={{ background: L.bg, border: `1px solid ${L.border}`, borderRadius: 10, padding: '14px 16px', marginBottom: 12 }}>
           <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: L.lc, lineHeight: 1.65 }}>{v.advice}</p>
         </div>
+
+        {/* Melding onbeantwoorde vragen */}
+        {skipped > 0 && (
+          <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '12px 16px', marginBottom: 12, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+            <span style={{ fontSize: 14, flexShrink: 0 }}>⚠️</span>
+            <p style={{ margin: 0, fontSize: 12, color: '#92400e', lineHeight: 1.65 }}>
+              Je hebt {skipped} van de {ALL_Q.length} vragen niet beantwoord. De uitslag is daardoor gebaseerd op een deel van de informatie — hoe meer je invult, hoe betrouwbaarder het beeld.
+            </p>
+          </div>
+        )}
 
         {/* Samenvatting signalen — compact, altijd zichtbaar */}
         {(hard.length > 0 || soft.length > 0) && (
@@ -748,10 +749,7 @@ function OptinScreen({ onSuccess, onSkip }) {
             )}
           </div>
 
-          {/* Privacy-notitie */}
-          <p style={{ textAlign: 'center', fontSize: 11, color: '#000', marginTop: 16, lineHeight: 1.6 }}>
-            Geen spam. Je kunt je altijd uitschrijven. Gegevens worden verwerkt conform de AVG.
-          </p>
+
         </div>
       </div>
     </div>
