@@ -62,8 +62,8 @@ const THEMES = [
         flagText: 'De conditie van de pups en hun omgeving geeft informatie over de zorg die zij krijgen. Gezonde pups zijn meestal alert en nieuwsgierig. Houd er rekening mee dat pups ook kunnen slapen of een rustmoment hebben. Beoordeel niet alleen één pup, maar kijk naar het nest als geheel.',
         follow: 'Zijn de pups al bij de dierenarts geweest voor een eerste gezondheidscontrole?' },
       { id: 'q_mn_5', goodAnswer: 'ja', weight: 'hard',
-        text: 'Gaan de pups pas mee na minimaal 8 weken? (Wettelijk verplicht in Nederland.)',
-        flagText: 'Pups mogen wettelijk pas na 8 weken worden overgedragen. Eerder meegeven is bovendien schadelijk voor hun sociale en emotionele ontwikkeling.',
+        text: 'Gaan de pups pas mee na minimaal 7 weken? (Wettelijk verplicht in Nederland.)',
+        flagText: 'Pups mogen wettelijk pas na 7 weken worden overgedragen. Experts adviseren echter om minimaal 8 tot 10 weken aan te houden — langer bij de moeder en het nest zorgt voor een betere sociale en emotionele ontwikkeling.',
         follow: 'Op welke leeftijd mag ik de pup meenemen?' },
       { id: 'q_mn_6', goodAnswer: 'ja', weight: 'soft',
         text: 'Wordt bekeken welke pup het beste bij jouw situatie past?',
@@ -719,8 +719,8 @@ function OptinScreen({ onSuccess, onSkip }) {
                 </button>
 
                 {/* Spam-notitie */}
-                <p style={{ margin: '0 0 10px', fontSize: 11, color: '#000', lineHeight: 1.55, textAlign: 'center' }}>
-                  Controleer je spammap als je de mail niet direct ziet.
+                <p style={{ margin: '0 0 10px', fontSize: 11, color: '#000', lineHeight: 1.65, textAlign: 'center' }}>
+                  <strong>Controleer je spammap als je de mail niet direct ziet.</strong> Het helpt ook om het afzenderadres op te slaan, zodat je niks mist.
                 </p>
 
                 {/* Skip-link */}
