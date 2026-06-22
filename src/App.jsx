@@ -374,13 +374,13 @@ function StartScreen({ onStart }) {
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark }}>
       <div style={{ background: C.copperLight, padding: '28px 24px 24px', textAlign: 'center' }}>
-        <a href="https://www.opvierpootjes.nl" style={{ display: 'inline-block', marginBottom: 14, fontSize: 11, color: 'rgba(0,0,0,0.45)', textDecoration: 'none', letterSpacing: '0.02em' }}>
-          ← opvierpootjes.nl
+        <a href="https://www.opvierpootjes.nl" style={{ display: 'inline-block', marginBottom: 14, fontSize: 12, fontWeight: 600, color: 'rgba(0,0,0,0.55)', textDecoration: 'none', letterSpacing: '0.02em' }}>
+          ← Homepage Op Vier Pootjes
         </a>
-        <p style={{ margin: '0 0 8px', fontSize: 13, color: '#1a1a1a', lineHeight: 1.5 }}>Betrouwbare fokker of niet?</p>
-        <h1 style={{ margin: '0 0 14px', fontSize: 22, fontWeight: 800, color: '#1a1a1a', letterSpacing: '-0.01em' }}>Doe de gratis fokker check</h1>
+        <p style={{ margin: '0 0 8px', fontSize: 15, fontWeight: 600, color: '#1a1a1a', lineHeight: 1.5 }}>Ben je op zoek naar een pup?</p>
+        <h1 style={{ margin: '0 0 14px', fontSize: 22, fontWeight: 800, color: '#1a1a1a', letterSpacing: '-0.01em' }}>Doe de gratis Fokkercheck</h1>
         <p style={{ margin: 0, fontSize: 13, color: '#1a1a1a', lineHeight: 1.65, maxWidth: 380, marginLeft: 'auto', marginRight: 'auto' }}>
-          Beantwoord een korte reeks vragen en krijg een duidelijke inschatting: lijkt deze fokker zorgvuldig, zijn er aandachtspunten, of zie je rode vlaggen?
+          Beantwoord een reeks vragen op basis van wat je ziet en hoort, en ontdek wat het totaalplaatje over deze fokker zegt.
         </p>
       </div>
       <div style={{ padding: '20px 20px 48px', maxWidth: 480, margin: '0 auto' }}>
