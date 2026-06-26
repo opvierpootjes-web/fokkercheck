@@ -10,40 +10,70 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Ongeldig e-mailadres' });
   }
 
-  const apiKey = process.env.MAILERLITE_API_KEY;
-  console.log('[subscribe] API key aanwezig:', !!apiKey);
+  const apiKey     = process.env.AC_API_KEY;
+  const accountUrl = process.env.AC_ACCOUNT_URL; // https://opvierpootjes.activehosted.com
+  const listId     = process.env.AC_LIST_ID;      // 10
+  const tagName    = process.env.AC_TAG;           // [LEAD]-ebook-aanvraag-fokkercheckgids
 
-  if (!apiKey) {
-    console.error('[subscribe] MAILERLITE_API_KEY niet gevonden in env');
-    return res.status(500).json({ error: 'API key niet geconfigureerd' });
+  console.log('[subscribe] AC API key aanwezig:', !!apiKey);
+
+  if (!apiKey || !accountUrl) {
+    console.error('[subscribe] AC configuratie ontbreekt in env');
+    return res.status(500).json({ error: 'API configuratie ontbreekt' });
   }
 
-  const groupId = process.env.MAILERLITE_GROUP_ID;
-  const body = { email };
-  if (name) body.fields = { name };
-  if (groupId) body.groups = [groupId];
-
-  console.log('[subscribe] MailerLite aanroepen voor:', email);
+  const base    = `${accountUrl}/api/3`;
+  const headers = {
+    'Content-Type': 'application/json',
+    'Accept':       'application/json',
+    'Api-Token':    apiKey,
+  };
 
   try {
-    const response = await fetch('https://connect.mailerlite.com/api/subscribers', {
+    // Stap 1: contact aanmaken of bijwerken via sync
+    const syncRes  = await fetch(`${base}/contact/sync`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify(body),
+      headers,
+      body: JSON.stringify({ contact: { email, firstName: name || '' } }),
     });
+    const syncData = await syncRes.json().catch(() => ({}));
+    console.log('[subscribe] AC sync status:', syncRes.status, JSON.stringify(syncData));
 
-    const data = await response.json().catch(() => ({}));
-    console.log('[subscribe] MailerLite status:', response.status, JSON.stringify(data));
-
-    if (response.ok || response.status === 409) {
-      return res.status(200).json({ success: true });
+    const contactId = syncData.contact?.id;
+    if (!contactId) {
+      console.error('[subscribe] Geen contact ID ontvangen van AC');
+      return res.status(502).json({ error: 'Kon contact niet aanmaken in ActiveCampaign' });
     }
 
-    return res.status(502).json({ error: 'MailerLite meldt een fout', detail: data });
+    // Stap 2: toevoegen aan lijst
+    if (listId) {
+      const listRes = await fetch(`${base}/contactLists`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ contactList: { list: listId, contact: contactId, status: 1 } }),
+      });
+      console.log('[subscribe] AC lijst status:', listRes.status);
+    }
+
+    // Stap 3: tag toevoegen (zoek bestaande tag op naam)
+    if (tagName) {
+      const tagSearchRes  = await fetch(`${base}/tags?search=${encodeURIComponent(tagName)}`, { headers });
+      const tagSearchData = await tagSearchRes.json().catch(() => ({}));
+      const tagId         = tagSearchData.tags?.[0]?.id;
+
+      if (tagId) {
+        const tagRes = await fetch(`${base}/contactTags`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ contactTag: { contact: contactId, tag: tagId } }),
+        });
+        console.log('[subscribe] AC tag status:', tagRes.status);
+      } else {
+        console.warn('[subscribe] Tag niet gevonden in AC:', tagName);
+      }
+    }
+
+    return res.status(200).json({ success: true });
 
   } catch (err) {
     console.error('[subscribe] Serverfout:', err.message);
