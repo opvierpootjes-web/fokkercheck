@@ -166,6 +166,21 @@ const THEMES = [
 
 const ALL_Q = THEMES.flatMap(t => t.questions);
 
+// Paginering: 5 vragen per pagina
+const PAGE_SIZE = 5;
+const PAGES = [];
+for (let i = 0; i < ALL_Q.length; i += PAGE_SIZE) {
+  PAGES.push(ALL_Q.slice(i, i + PAGE_SIZE));
+}
+// Geef elke pagina een themakoptekst op basis van de eerste vraag op die pagina
+function pageTitle(pageQuestions) {
+  const firstId = pageQuestions[0]?.id ?? '';
+  for (const t of THEMES) {
+    if (t.questions.some(q => q.id === firstId)) return t.name;
+  }
+  return '';
+}
+
 const DISCLAIMER = 'Deze tool geeft een inschatting op basis van de antwoorden die je hebt ingevuld. Geen enkele vraag bepaalt op zichzelf of een fokker goed of slecht is. Meerdere kleine aandachtspunten samen kunnen een reden zijn om extra kritisch te zijn. Andersom hoeft één aandachtspunt niet direct te betekenen dat er iets mis is. Voelt iets niet goed, maar kun je niet precies uitleggen waarom? Neem dat gevoel serieus.';
 
 // ── Score ─────────────────────────────────────────────────────
@@ -416,9 +431,10 @@ function StartScreen({ onStart }) {
 }
 
 // ── Themascherm ───────────────────────────────────────────────
-function ThemeScreen({ theme, idx, total, answers, onAns, onNext, onPrev }) {
-  const unanswered = theme.questions.filter(q => !answers[q.id]).length;
+function ThemeScreen({ questions, idx, total, answers, onAns, onNext, onPrev }) {
+  const unanswered = questions.filter(q => !answers[q.id]).length;
   const isLast = idx === total - 1;
+  const title = pageTitle(questions);
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark, display: 'flex', flexDirection: 'column' }}>
       <div style={{ position: 'sticky', top: 0, zIndex: 20, background: '#fff', borderBottom: '1px solid #e8e3db', padding: '10px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}>
@@ -428,12 +444,12 @@ function ThemeScreen({ theme, idx, total, answers, onAns, onNext, onPrev }) {
         </div>
         <LiveBadge answers={answers} />
       </div>
-      <div style={{ background: C.copperLight, color: '#1a1a1a', padding: '18px 20px 16px' }}>
-        <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800 }}>{theme.name}</h2>
+      <div style={{ background: '#f0f5f7', color: '#1a1a1a', padding: '18px 20px 16px' }}>
+        <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800 }}>{title}</h2>
       </div>
       <div style={{ flex: 1, padding: '10px 12px 8px', maxWidth: 600, margin: '0 auto', width: '100%' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-          {theme.questions.map(q => <QuestionCard key={q.id} q={q} ans={answers} onAns={onAns} />)}
+          {questions.map(q => <QuestionCard key={q.id} q={q} ans={answers} onAns={onAns} />)}
         </div>
       </div>
       <div style={{ position: 'sticky', bottom: 0, background: '#fff', borderTop: '1px solid #e8e3db', padding: '12px 16px' }}>
@@ -442,7 +458,7 @@ function ThemeScreen({ theme, idx, total, answers, onAns, onNext, onPrev }) {
           <button onClick={onNext}
             style={{ fontFamily: 'inherit', flex: 1, padding: '10px 18px', borderRadius: 8, border: 'none', background: '#8b7752', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer', transition: 'opacity 0.2s' }}
             onMouseOver={e => (e.currentTarget.style.opacity = '0.85')} onMouseOut={e => (e.currentTarget.style.opacity = '1')}>
-            {isLast ? 'Bekijk uitslag' : 'Volgende thema'}
+            {isLast ? 'Bekijk uitslag' : 'Volgende'}
           </button>
         </div>
         {unanswered > 0 && (
@@ -456,14 +472,14 @@ function ThemeScreen({ theme, idx, total, answers, onAns, onNext, onPrev }) {
 }
 
 // ── Uitslagscherm ─────────────────────────────────────────────
-function ResultScreen({ answers, onRestart }) {
+function ResultScreen({ answers, onRestart, onRequestGids }) {
   const { level, hard, soft } = calcScore(answers);
   const skipped = ALL_Q.filter(q => !answers[q.id]).length;
   const LEVEL = {
-    green:  { bg: '#f6fef9', border: '#86efac', headerBg: '#166534', headerText: 'Ziet er zorgvuldig uit',  lc: '#15803d', dot: '#16a34a' },
-    orange: { bg: C.orangeBg, border: C.orangeBorder, headerBg: C.orangeDark, headerText: 'Er zijn aandachtspunten', lc: C.orangeDark, dot: C.orange },
-    red:    { bg: '#fef7f7', border: '#f5b8b8', headerBg: '#7f1d1d', headerText: 'Er zijn rode vlaggen',    lc: '#991b1b', dot: '#c0392b' },
-    grey:   { bg: '#f3f4f6', border: '#d1d5db', headerBg: '#4b5563', headerText: 'Geen vragen beantwoord',  lc: '#374151', dot: '#9ca3af' },
+    green:  { bg: '#f6fef9', border: '#86efac', headerText: 'Ziet er zorgvuldig uit',  lc: '#15803d', dot: '#16a34a' },
+    orange: { bg: C.orangeBg, border: C.orangeBorder, headerText: 'Er zijn aandachtspunten', lc: C.orangeDark, dot: C.orange },
+    red:    { bg: '#fef7f7', border: '#f5b8b8', headerText: 'Er zijn rode vlaggen',    lc: '#991b1b', dot: '#c0392b' },
+    grey:   { bg: '#f3f4f6', border: '#d1d5db', headerText: 'Geen vragen beantwoord',  lc: '#374151', dot: '#9ca3af' },
   };
   const L = LEVEL[level];
   const VERDICT = {
@@ -477,12 +493,12 @@ function ResultScreen({ answers, onRestart }) {
 
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark }}>
-      <div style={{ background: L.headerBg, color: '#fff', padding: '28px 24px 22px', textAlign: 'center' }}>
+      <div style={{ background: '#f0f5f7', color: '#1a1a1a', padding: '28px 24px 22px', textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-          <div style={{ width: 12, height: 12, borderRadius: '50%', background: L.dot, border: '2px solid rgba(255,255,255,0.5)' }} />
+          <div style={{ width: 14, height: 14, borderRadius: '50%', background: L.dot, flexShrink: 0 }} />
           <h1 style={{ margin: 0, fontSize: 20, fontWeight: 800 }}>{L.headerText}</h1>
         </div>
-        <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.9)', lineHeight: 1.7, maxWidth: 400, marginLeft: 'auto', marginRight: 'auto' }}>{v.desc}</p>
+        <p style={{ margin: 0, fontSize: 13, color: '#374151', lineHeight: 1.7, maxWidth: 400, marginLeft: 'auto', marginRight: 'auto' }}>{v.desc}</p>
       </div>
 
       <div style={{ padding: '16px 16px 48px', maxWidth: 580, margin: '0 auto' }}>
@@ -517,7 +533,7 @@ function ResultScreen({ answers, onRestart }) {
             )}
           </div>
         )}
-        {hard.length === 0 && soft.length === 0 && (
+        {hard.length === 0 && soft.length === 0 && skipped === 0 && level === 'green' && (
           <div style={{ background: '#f6fef9', border: '1px solid #86efac', borderRadius: 10, padding: '12px 16px', marginBottom: 12 }}>
             <p style={{ margin: 0, fontSize: 13, color: '#166534', lineHeight: 1.65 }}>Je hebt alle vragen positief beantwoord. Vertrouw ook op je eigen gevoel en neem nooit bij het eerste bezoek direct een pup mee.</p>
           </div>
@@ -575,8 +591,18 @@ function ResultScreen({ answers, onRestart }) {
           <p style={{ margin: 0, fontSize: 12, color: C.grey, lineHeight: 1.7 }}>{DISCLAIMER}</p>
         </AccordionSection>
 
+        {/* Gids aanvragen */}
+        <div style={{ background: '#f6f6f6', border: '1px solid #e5e7eb', borderRadius: 12, padding: '16px 18px', marginBottom: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+            <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 15 }}>📋</div>
+            <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: C.dark }}>Ontvang de complete gids</p>
+          </div>
+          <p style={{ margin: '0 0 12px', fontSize: 12, color: '#374151', lineHeight: 1.65 }}>Wil je de volledige gids met checklists, vragen voor fokkers en vergelijkingsformulieren? Vraag hem gratis aan.</p>
+          <button onClick={onRequestGids} style={{ fontFamily: 'inherit', width: '100%', background: C.copper, color: '#fff', fontSize: 13, fontWeight: 700, padding: '10px 20px', borderRadius: 8, border: 'none', cursor: 'pointer' }}>Vraag de gratis gids aan</button>
+        </div>
+
         <button onClick={onRestart} style={{ fontFamily: 'inherit', width: '100%', background: '#fff', color: C.grey, fontSize: 13, fontWeight: 600, padding: '11px 24px', borderRadius: 8, border: '1.5px solid #e8e3db', cursor: 'pointer', marginTop: 4 }}>Opnieuw beginnen</button>
-        <a href="https://www.opvierpootjes.nl" style={{ display: 'block', textAlign: 'center', background: '#fff', color: C.copperMid, border: '1.5px solid ' + C.copperMid, borderRadius: 8, padding: '11px 24px', fontSize: 13, fontWeight: 700, textDecoration: 'none', marginTop: 8 }}>Ga naar de website van Op Vier Pootjes →</a>
+        <a href="https://opvierpootjes.nl/?page_id=21895&preview=true" style={{ display: 'block', textAlign: 'center', background: '#fff', color: C.copperMid, border: '1.5px solid ' + C.copperMid, borderRadius: 8, padding: '11px 24px', fontSize: 13, fontWeight: 700, textDecoration: 'none', marginTop: 8 }}>Ga naar de website van Op Vier Pootjes →</a>
       </div>
     </div>
   );
@@ -623,8 +649,8 @@ function OptinScreen({ onSuccess, onSkip }) {
     <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark, display: 'flex', flexDirection: 'column' }}>
 
       {/* Smalle header */}
-      <div style={{ background: C.copperLight, padding: '14px 20px', textAlign: 'center' }}>
-        <a href="https://www.opvierpootjes.nl" style={{ fontSize: 11, color: 'rgba(0,0,0,0.45)', textDecoration: 'none', letterSpacing: '0.02em' }}>← opvierpootjes.nl</a>
+      <div style={{ background: '#f0f5f7', padding: '14px 20px', textAlign: 'center' }}>
+        <a href="https://opvierpootjes.nl/?page_id=21895&preview=true" style={{ fontSize: 11, color: 'rgba(0,0,0,0.45)', textDecoration: 'none', letterSpacing: '0.02em' }}>← opvierpootjes.nl</a>
       </div>
 
       {/* Inhoud */}
@@ -632,11 +658,11 @@ function OptinScreen({ onSuccess, onSkip }) {
         <div style={{ width: '100%', maxWidth: 480 }}>
 
           {/* Kaart */}
-          <div style={{ background: C.stone, border: `1px solid ${C.stoneBorder}`, borderRadius: 14, padding: '22px 22px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
+          <div style={{ background: '#f6f6f6', border: '1px solid #e5e7eb', borderRadius: 14, padding: '22px 22px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
 
             {/* Icoon + titel op één rij */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-              <div style={{ width: 34, height: 34, borderRadius: '50%', background: C.copperLight, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 16 }}>
+              <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 16 }}>
                 📋
               </div>
               <h2 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: C.dark, lineHeight: 1.25 }}>
@@ -775,14 +801,15 @@ export default function App() {
     return () => document.head.removeChild(link);
   }, []);
 
-  const onAns     = (id, val) => setAnswers(p => ({ ...p, [id]: val }));
-  const onStart   = () => { setAnswers({}); setThemeIdx(0); setScreen('questions'); };
-  const onNext    = () => { themeIdx < THEMES.length - 1 ? setThemeIdx(i => i + 1) : setScreen('optin'); };
-  const onPrev    = () => { themeIdx > 0 ? setThemeIdx(i => i - 1) : setScreen('start'); };
-  const onRestart = () => { setAnswers({}); setThemeIdx(0); setScreen('start'); };
+  const onAns          = (id, val) => setAnswers(p => ({ ...p, [id]: val }));
+  const onStart        = () => { setAnswers({}); setThemeIdx(0); setScreen('questions'); };
+  const onNext         = () => { themeIdx < PAGES.length - 1 ? setThemeIdx(i => i + 1) : setScreen('optin'); };
+  const onPrev         = () => { themeIdx > 0 ? setThemeIdx(i => i - 1) : setScreen('start'); };
+  const onRestart      = () => { setAnswers({}); setThemeIdx(0); setScreen('start'); };
+  const onRequestGids  = () => setScreen('optin');
 
   if (screen === 'start')     return <StartScreen onStart={onStart} />;
-  if (screen === 'questions') return <ThemeScreen theme={THEMES[themeIdx]} idx={themeIdx} total={THEMES.length} answers={answers} onAns={onAns} onNext={onNext} onPrev={onPrev} />;
+  if (screen === 'questions') return <ThemeScreen questions={PAGES[themeIdx]} idx={themeIdx} total={PAGES.length} answers={answers} onAns={onAns} onNext={onNext} onPrev={onPrev} />;
   if (screen === 'optin')     return <OptinScreen onSuccess={() => setScreen('results')} onSkip={() => setScreen('results')} />;
-  if (screen === 'results')   return <ResultScreen answers={answers} onRestart={onRestart} />;
+  if (screen === 'results')   return <ResultScreen answers={answers} onRestart={onRestart} onRequestGids={onRequestGids} />;
 }
