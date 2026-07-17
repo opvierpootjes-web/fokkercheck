@@ -593,7 +593,7 @@ function ResultScreen({ answers, onRestart, onRequestGids }) {
 
         {/* Gids aanvragen — subtiel */}
         <p style={{ textAlign: 'center', fontSize: 13, color: C.grey, marginBottom: 12 }}>
-          Ik wil toch graag de complete gids ontvangen —{' '}
+          Ik wil toch graag de complete gids of de waardevolle mails ontvangen —{' '}
           <button onClick={onRequestGids} style={{ fontFamily: 'inherit', background: 'none', border: 'none', padding: 0, fontSize: 13, color: C.copperMid, fontWeight: 600, cursor: 'pointer', textDecoration: 'underline' }}>klik hier</button>
         </p>
 
