@@ -390,7 +390,7 @@ function LiveBadge({ answers }) {
 // ── Startscherm ───────────────────────────────────────────────
 function StartScreen({ onStart }) {
   return (
-    <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark }}>
+    <div style={{ minHeight: '100vh', background: '#f0f5f7', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark }}>
       <div style={{ background: '#f0f5f7', padding: '28px 24px 24px', textAlign: 'center' }}>
         <a href="https://www.opvierpootjes.nl" style={{ display: 'inline-block', marginBottom: 14, fontSize: 12, fontWeight: 600, color: 'rgba(0,0,0,0.55)', textDecoration: 'none', letterSpacing: '0.02em' }}>
           ← Homepage Op Vier Pootjes
@@ -436,7 +436,7 @@ function ThemeScreen({ questions, idx, total, answers, onAns, onNext, onPrev }) 
   const isLast = idx === total - 1;
   const title = pageTitle(questions);
   return (
-    <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark, display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: '#f0f5f7', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark, display: 'flex', flexDirection: 'column' }}>
       <div style={{ position: 'sticky', top: 0, zIndex: 20, background: '#fff', borderBottom: '1px solid #e8e3db', padding: '10px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <StepDots current={idx} total={total} />
@@ -492,7 +492,7 @@ function ResultScreen({ answers, onRestart, onRequestGids }) {
   const followItems = [...hard, ...soft].filter(q => q.follow);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark }}>
+    <div style={{ minHeight: '100vh', background: '#f0f5f7', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark }}>
       <div style={{ background: '#f0f5f7', color: '#1a1a1a', padding: '28px 24px 22px', textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10, marginBottom: 8 }}>
           <div style={{ width: 14, height: 14, borderRadius: '50%', background: L.dot, flexShrink: 0 }} />
@@ -591,15 +591,11 @@ function ResultScreen({ answers, onRestart, onRequestGids }) {
           <p style={{ margin: 0, fontSize: 12, color: C.grey, lineHeight: 1.7 }}>{DISCLAIMER}</p>
         </AccordionSection>
 
-        {/* Gids aanvragen */}
-        <div style={{ background: '#f6f6f6', border: '1px solid #e5e7eb', borderRadius: 12, padding: '16px 18px', marginBottom: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-            <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 15 }}>📋</div>
-            <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: C.dark }}>Ontvang de complete gids</p>
-          </div>
-          <p style={{ margin: '0 0 12px', fontSize: 12, color: '#374151', lineHeight: 1.65 }}>Wil je de volledige gids met checklists, vragen voor fokkers en vergelijkingsformulieren? Vraag hem gratis aan.</p>
-          <button onClick={onRequestGids} style={{ fontFamily: 'inherit', width: '100%', background: C.copper, color: '#fff', fontSize: 13, fontWeight: 700, padding: '10px 20px', borderRadius: 8, border: 'none', cursor: 'pointer' }}>Vraag de gratis gids aan</button>
-        </div>
+        {/* Gids aanvragen — subtiel */}
+        <p style={{ textAlign: 'center', fontSize: 13, color: C.grey, marginBottom: 12 }}>
+          Ik wil toch graag de complete gids ontvangen —{' '}
+          <button onClick={onRequestGids} style={{ fontFamily: 'inherit', background: 'none', border: 'none', padding: 0, fontSize: 13, color: C.copperMid, fontWeight: 600, cursor: 'pointer', textDecoration: 'underline' }}>klik hier</button>
+        </p>
 
         <button onClick={onRestart} style={{ fontFamily: 'inherit', width: '100%', background: '#fff', color: C.grey, fontSize: 13, fontWeight: 600, padding: '11px 24px', borderRadius: 8, border: '1.5px solid #e8e3db', cursor: 'pointer', marginTop: 4 }}>Opnieuw beginnen</button>
         <a href="https://opvierpootjes.nl/?page_id=21895&preview=true" style={{ display: 'block', textAlign: 'center', background: '#fff', color: C.copperMid, border: '1.5px solid ' + C.copperMid, borderRadius: 8, padding: '11px 24px', fontSize: 13, fontWeight: 700, textDecoration: 'none', marginTop: 8 }}>Ga naar de website van Op Vier Pootjes →</a>
@@ -646,7 +642,7 @@ function OptinScreen({ onSuccess, onSkip }) {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark, display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: '#f0f5f7', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark, display: 'flex', flexDirection: 'column' }}>
 
       {/* Smalle header */}
       <div style={{ background: '#f0f5f7', padding: '14px 20px', textAlign: 'center' }}>
@@ -735,7 +731,7 @@ function OptinScreen({ onSuccess, onSkip }) {
                     padding: '11px 20px',
                     borderRadius: 8,
                     border: 'none',
-                    background: loading ? C.copperLight : C.copper,
+                    background: loading ? '#b9a46e' : '#8b7752',
                     color: '#fff',
                     fontSize: 14,
                     fontWeight: 700,
