@@ -171,11 +171,14 @@ const DISCLAIMER = 'Deze tool geeft een inschatting op basis van de antwoorden d
 // ── Score ─────────────────────────────────────────────────────
 function calcScore(answers) {
   const hard = [], soft = [];
+  let answered = 0;
   ALL_Q.forEach(q => {
     const a = answers[q.id];
     if (!a) return;
+    answered++;
     if (a !== q.goodAnswer) { q.weight === 'hard' ? hard.push(q) : soft.push(q); }
   });
+  if (answered === 0) return { level: 'grey', hard, soft };
   return { level: hard.length ? 'red' : soft.length ? 'orange' : 'green', hard, soft };
 }
 
@@ -373,7 +376,7 @@ function LiveBadge({ answers }) {
 function StartScreen({ onStart }) {
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark }}>
-      <div style={{ background: C.copperLight, padding: '28px 24px 24px', textAlign: 'center' }}>
+      <div style={{ background: '#f0f5f7', padding: '28px 24px 24px', textAlign: 'center' }}>
         <a href="https://www.opvierpootjes.nl" style={{ display: 'inline-block', marginBottom: 14, fontSize: 12, fontWeight: 600, color: 'rgba(0,0,0,0.55)', textDecoration: 'none', letterSpacing: '0.02em' }}>
           ← Homepage Op Vier Pootjes
         </a>
@@ -460,12 +463,14 @@ function ResultScreen({ answers, onRestart }) {
     green:  { bg: '#f6fef9', border: '#86efac', headerBg: '#166534', headerText: 'Ziet er zorgvuldig uit',  lc: '#15803d', dot: '#16a34a' },
     orange: { bg: C.orangeBg, border: C.orangeBorder, headerBg: C.orangeDark, headerText: 'Er zijn aandachtspunten', lc: C.orangeDark, dot: C.orange },
     red:    { bg: '#fef7f7', border: '#f5b8b8', headerBg: '#7f1d1d', headerText: 'Er zijn rode vlaggen',    lc: '#991b1b', dot: '#c0392b' },
+    grey:   { bg: '#f3f4f6', border: '#d1d5db', headerBg: '#4b5563', headerText: 'Geen vragen beantwoord',  lc: '#374151', dot: '#9ca3af' },
   };
   const L = LEVEL[level];
   const VERDICT = {
     green:  { desc: 'Er zijn geen duidelijke rode vlaggen naar voren gekomen. Dat is een goed teken. Blijf wel kritisch en neem nooit bij het eerste bezoek direct een pup mee.', advice: 'Je kunt voorzichtig verder, maar vertrouw ook op je eigen gevoel.' },
     orange: { desc: 'Er zijn signalen die om aandacht vragen. Dit betekent niet dat de fokker onbetrouwbaar is, maar je hebt meer informatie nodig voor je beslist.', advice: 'Stel je openstaande vragen eerst. Neem de tijd en kom desnoods nog een keer terug.' },
     red:    { desc: 'Er zijn een of meer rode vlaggen gevonden. Dit zijn signalen die je serieus moet nemen. Het is verstandig om eerst alle twijfels op te helderen voor je een beslissing neemt.', advice: 'Ga niet verder zonder alle vragen beantwoord te hebben. Twijfel je flink? Neem dan de tijd.' },
+    grey:   { desc: 'Je hebt geen vragen beantwoord, dus er kan geen uitslag worden gegeven. Ga terug en beantwoord de vragen om een betrouwbaar beeld te krijgen.', advice: 'Hoe meer vragen je invult, hoe betrouwbaarder het beeld.' },
   };
   const v = VERDICT[level];
   const followItems = [...hard, ...soft].filter(q => q.follow);
