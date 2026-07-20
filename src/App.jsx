@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 const C = {
   copper:      '#845814',
@@ -804,8 +805,8 @@ export default function App() {
   const onRestart      = () => { setAnswers({}); setThemeIdx(0); setScreen('start'); };
   const onRequestGids  = () => setScreen('optin');
 
-  if (screen === 'start')     return <StartScreen onStart={onStart} />;
-  if (screen === 'questions') return <ThemeScreen questions={PAGES[themeIdx]} idx={themeIdx} total={PAGES.length} answers={answers} onAns={onAns} onNext={onNext} onPrev={onPrev} />;
-  if (screen === 'optin')     return <OptinScreen onSuccess={() => setScreen('results')} onSkip={() => setScreen('results')} />;
-  if (screen === 'results')   return <ResultScreen answers={answers} onRestart={onRestart} onRequestGids={onRequestGids} />;
+  if (screen === 'start')     return <><StartScreen onStart={onStart} /><Analytics /></>;
+  if (screen === 'questions') return <><ThemeScreen questions={PAGES[themeIdx]} idx={themeIdx} total={PAGES.length} answers={answers} onAns={onAns} onNext={onNext} onPrev={onPrev} /><Analytics /></>;
+  if (screen === 'optin')     return <><OptinScreen onSuccess={() => setScreen('results')} onSkip={() => setScreen('results')} /><Analytics /></>;
+  if (screen === 'results')   return <><ResultScreen answers={answers} onRestart={onRestart} onRequestGids={onRequestGids} /><Analytics /></>;
 }
