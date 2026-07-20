@@ -396,7 +396,7 @@ function StartScreen({ onStart }) {
           ← Homepage Op Vier Pootjes
         </a>
         <p style={{ margin: '0 0 8px', fontSize: 15, fontWeight: 600, color: '#1a1a1a', lineHeight: 1.5 }}>Ben je op zoek naar een pup?</p>
-        <h1 style={{ margin: '0 0 14px', fontSize: 22, fontWeight: 800, color: '#1a1a1a', letterSpacing: '-0.01em' }}>Doe de gratis Fokkercheck</h1>
+        <h1 style={{ margin: '0 0 14px', fontSize: 22, fontWeight: 800, color: '#1a1a1a', letterSpacing: '-0.01em' }}>Doe de Fokkercheck</h1>
         <p style={{ margin: 0, fontSize: 13, color: '#1a1a1a', lineHeight: 1.65, maxWidth: 380, marginLeft: 'auto', marginRight: 'auto' }}>
           Beantwoord een reeks vragen op basis van wat je ziet en hoort, en ontdek wat het totaalplaatje over deze fokker zegt.
         </p>
