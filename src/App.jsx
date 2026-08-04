@@ -41,6 +41,10 @@ const THEMES = [
         text: 'Zijn er meerdere rassen of steeds meerdere nesten tegelijk beschikbaar?',
         flagText: 'Het hebben van meerdere rassen of nesten tegelijk hoeft niet automatisch een probleem te zijn. Kijk naar de omvang van de fokkerij, hoeveel aandacht er per nest is en hoe goed de fokker de pups kent. Wanneer er voortdurend pups beschikbaar zijn of veel verschillende rassen worden aangeboden, is het verstandig om extra vragen te stellen. Meerdere nesten tegelijk betekent vrijwel altijd dat de individuele aandacht per nest minder is — een aandachtspunt dat het verder vragen waard is.',
         follow: 'Hoeveel nestjes heb je per jaar en met hoeveel moederhonden fok je?' },
+      { id: 'q_ei_6', goodAnswer: 'ja', weight: 'soft',
+        text: 'Vertelt de fokker uit zichzelf wat er bij dit ras komt kijken aan verzorging, zoals vachtonderhoud, beweging of andere raskenmerken?',
+        flagText: 'Een fokker die dit soort informatie uit zichzelf deelt, laat zien dat hij verder kijkt dan de verkoop en jou helpt een weloverwogen keuze te maken die past bij jouw leven en situatie.',
+        follow: 'Wat komt er bij dit ras precies kijken aan verzorging, en waar moet ik me op voorbereiden voor ik de pup mee naar huis neem?' },
     ],
   },
   {
@@ -161,6 +165,10 @@ const THEMES = [
         text: 'Vraagt de fokker je te laten weten hoe het met de pup gaat?',
         flagText: 'Een fokker die wil weten hoe het gaat, toont betrokkenheid. Dat is geen vereiste, maar een teken van zorg voor zijn dieren.',
         follow: 'Wil je updates over hoe de pup het bij ons doet?' },
+      { id: 'q_beg_5', goodAnswer: 'ja', weight: 'soft',
+        text: 'Krijg je van de fokker informatie mee over de verzorgingsbehoeften van dit ras, denk aan vacht, beweging of andere aandachtspunten?',
+        flagText: 'Praktische informatie over verzorging bij de overdracht helpt je goed voorbereid te starten, en voorkomt dat je achteraf voor verrassingen komt te staan.',
+        follow: '' },
     ],
   },
 ];
