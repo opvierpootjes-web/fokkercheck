@@ -235,7 +235,7 @@ function AnsBtn({ val, label, q, ans, onAns }) {
     else { bg = C.orange; color = '#fff'; border = `1.5px solid ${C.orange}`; }
   }
   return (
-    <button onClick={() => onAns(q.id, val)} style={{ fontFamily: 'inherit', fontSize: 12, fontWeight: 600, padding: '5px 16px', borderRadius: 6, border, background: bg, color, cursor: 'pointer', transition: 'all 0.15s ease' }}>
+    <button onClick={() => onAns(q.id, val)} style={{ fontFamily: 'inherit', fontSize: 14, fontWeight: 600, padding: '10px 22px', minHeight: 44, borderRadius: 8, border, background: bg, color, cursor: 'pointer', transition: 'all 0.15s ease' }}>
       {label}
     </button>
   );
@@ -459,7 +459,7 @@ function ThemeScreen({ questions, idx, total, answers, onAns, onNext, onPrev }) 
         </div>
         <LiveBadge answers={answers} />
       </div>
-      <div style={{ background: '#f0f5f7', color: '#1a1a1a', padding: '18px 20px 16px' }}>
+      <div style={{ background: '#f0f5f7', color: '#1a1a1a', padding: '18px 20px 16px', textAlign: 'center' }}>
         {themeIndex && (
           <p style={{ margin: '0 0 3px', fontSize: 10, fontWeight: 700, color: C.grey, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
             Thema {themeIndex} van 5
