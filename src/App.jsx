@@ -483,7 +483,7 @@ function ThemeScreen({ questions, idx, total, answers, onAns, onNext, onPrev }) 
         </div>
         {unanswered > 0 && (
           <p style={{ textAlign: 'center', fontSize: 11, color: C.grey, marginTop: 8, marginBottom: 0 }}>
-            {unanswered} vraag{unanswered > 1 ? 'en' : ''} nog niet ingevuld — je kunt ook zo doorgaan
+            {unanswered} {unanswered > 1 ? 'vragen' : 'vraag'} nog niet ingevuld — je kunt ook zo doorgaan
           </p>
         )}
       </div>
