@@ -189,6 +189,11 @@ function pageTitle(pageQuestions) {
   }
   return '';
 }
+function pageThemeIndex(pageQuestions) {
+  const firstId = pageQuestions[0]?.id ?? '';
+  const idx = THEMES.findIndex(t => t.questions.some(q => q.id === firstId));
+  return idx >= 0 ? idx + 1 : null;
+}
 
 const DISCLAIMER = 'Deze tool geeft een inschatting op basis van de antwoorden die je hebt ingevuld. Geen enkele vraag bepaalt op zichzelf of een fokker goed of slecht is. Meerdere kleine aandachtspunten samen kunnen een reden zijn om extra kritisch te zijn. Andersom hoeft één aandachtspunt niet direct te betekenen dat er iets mis is. Voelt iets niet goed, maar kun je niet precies uitleggen waarom? Neem dat gevoel serieus.';
 
@@ -444,6 +449,7 @@ function ThemeScreen({ questions, idx, total, answers, onAns, onNext, onPrev }) 
   const unanswered = questions.filter(q => !answers[q.id]).length;
   const isLast = idx === total - 1;
   const title = pageTitle(questions);
+  const themeIndex = pageThemeIndex(questions);
   return (
     <div style={{ minHeight: '100vh', background: '#f0f5f7', fontFamily: 'Montserrat, Helvetica Neue, Arial, sans-serif', color: C.dark, display: 'flex', flexDirection: 'column' }}>
       <div style={{ position: 'sticky', top: 0, zIndex: 20, background: '#fff', borderBottom: '1px solid #e8e3db', padding: '10px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}>
@@ -454,6 +460,11 @@ function ThemeScreen({ questions, idx, total, answers, onAns, onNext, onPrev }) 
         <LiveBadge answers={answers} />
       </div>
       <div style={{ background: '#f0f5f7', color: '#1a1a1a', padding: '18px 20px 16px' }}>
+        {themeIndex && (
+          <p style={{ margin: '0 0 3px', fontSize: 10, fontWeight: 700, color: C.grey, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+            Thema {themeIndex} van 5
+          </p>
+        )}
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800 }}>{title}</h2>
       </div>
       <div style={{ flex: 1, padding: '10px 12px 8px', maxWidth: 600, margin: '0 auto', width: '100%' }}>
