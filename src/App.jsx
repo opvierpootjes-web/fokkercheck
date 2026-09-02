@@ -611,8 +611,11 @@ function ResultScreen({ answers, onRestart, onRequestGids }) {
           <p style={{ margin: 0, fontSize: 12, color: C.grey, lineHeight: 1.7 }}>{DISCLAIMER}</p>
         </AccordionSection>
 
+        {/* Scheidingslijn */}
+        <hr style={{ border: 'none', borderTop: '1px solid #d1d5db', margin: '32px 0' }} />
+
         {/* E-book kaartje */}
-        <div style={{ background: '#8b7752', border: 'none', borderRadius: 12, padding: '18px 20px', marginBottom: 12, marginTop: 24 }}>
+        <div style={{ background: '#8b7752', border: 'none', borderRadius: 12, padding: '18px 20px', marginBottom: 12 }}>
           <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 800, color: '#fff' }}>Klaar voor de volgende stap?</p>
           <p style={{ margin: '0 0 14px', fontSize: 13, color: '#f5ead8', lineHeight: 1.65 }}>
             Wil jij je inlezen over het krijgen van een pup? Begrijpen wat hij nodig heeft dat eerste jaar?
