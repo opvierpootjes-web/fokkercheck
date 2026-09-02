@@ -618,7 +618,7 @@ function ResultScreen({ answers, onRestart, onRequestGids }) {
             Wil jij je inlezen over het krijgen van een pup? Begrijpen wat hij nodig heeft dat eerste jaar?
           </p>
           <a href="https://opvierpootjes.nl/de-bewuste-basis-voor-je-pup/" target="_blank" rel="noopener noreferrer"
-            style={{ display: 'inline-block', background: '#ffe7ac', color: '#5a3e1b', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
+            style={{ display: 'inline-block', background: '#f0f5f7', color: '#5a3e1b', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
             Bekijk het e-book →
           </a>
         </div>
