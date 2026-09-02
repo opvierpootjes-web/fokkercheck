@@ -611,6 +611,18 @@ function ResultScreen({ answers, onRestart, onRequestGids }) {
           <p style={{ margin: 0, fontSize: 12, color: C.grey, lineHeight: 1.7 }}>{DISCLAIMER}</p>
         </AccordionSection>
 
+        {/* E-book kaartje */}
+        <div style={{ background: '#fffbf5', border: `1.5px solid ${C.copperLight}`, borderRadius: 12, padding: '18px 20px', marginBottom: 12 }}>
+          <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 800, color: C.dark }}>Klaar voor de volgende stap?</p>
+          <p style={{ margin: '0 0 14px', fontSize: 13, color: '#374151', lineHeight: 1.65 }}>
+            Wil jij je inlezen over het krijgen van een pup? Begrijpen wat hij nodig heeft dat eerste jaar?
+          </p>
+          <a href="https://opvierpootjes.nl/de-bewuste-basis-voor-je-pup/" target="_blank" rel="noopener noreferrer"
+            style={{ display: 'inline-block', background: '#8b7752', color: '#fff', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
+            Bekijk het e-book →
+          </a>
+        </div>
+
         {/* Gids aanvragen — subtiel */}
         <p style={{ textAlign: 'center', fontSize: 13, color: C.grey, marginBottom: 12 }}>
           Ik wil toch graag de complete gids of de waardevolle mails ontvangen —{' '}
