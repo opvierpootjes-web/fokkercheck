@@ -612,13 +612,13 @@ function ResultScreen({ answers, onRestart, onRequestGids }) {
         </AccordionSection>
 
         {/* E-book kaartje */}
-        <div style={{ background: '#fffbf5', border: `1.5px solid ${C.copperLight}`, borderRadius: 12, padding: '18px 20px', marginBottom: 12 }}>
-          <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 800, color: C.dark }}>Klaar voor de volgende stap?</p>
-          <p style={{ margin: '0 0 14px', fontSize: 13, color: '#374151', lineHeight: 1.65 }}>
+        <div style={{ background: '#8b7752', border: 'none', borderRadius: 12, padding: '18px 20px', marginBottom: 12 }}>
+          <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 800, color: '#fff' }}>Klaar voor de volgende stap?</p>
+          <p style={{ margin: '0 0 14px', fontSize: 13, color: '#f5ead8', lineHeight: 1.65 }}>
             Wil jij je inlezen over het krijgen van een pup? Begrijpen wat hij nodig heeft dat eerste jaar?
           </p>
           <a href="https://opvierpootjes.nl/de-bewuste-basis-voor-je-pup/" target="_blank" rel="noopener noreferrer"
-            style={{ display: 'inline-block', background: '#8b7752', color: '#fff', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
+            style={{ display: 'inline-block', background: '#ffe7ac', color: '#5a3e1b', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
             Bekijk het e-book →
           </a>
         </div>
@@ -787,7 +787,7 @@ function OptinScreen({ onSuccess, onSkip }) {
                 <div style={{ textAlign: 'center' }}>
                   <button
                     onClick={onSkip}
-                    style={{ fontFamily: 'inherit', background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#000', textDecoration: 'underline', padding: 0 }}
+                    style={{ fontFamily: 'inherit', background: 'none', border: 'none', cursor: 'pointer', fontSize: 14, fontWeight: 700, color: '#000', textDecoration: 'underline', padding: 0 }}
                   >
                     Nee bedankt, toon mijn uitslag
                   </button>
