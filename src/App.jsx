@@ -618,15 +618,15 @@ function ResultScreen({ answers, onRestart, onRequestGids }) {
             Wil jij je inlezen over het krijgen van een pup? Begrijpen wat hij nodig heeft dat eerste jaar?
           </p>
           <a href="https://opvierpootjes.nl/de-bewuste-basis-voor-je-pup/" target="_blank" rel="noopener noreferrer"
-            style={{ display: 'inline-block', background: '#f0f5f7', color: '#5a3e1b', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
+            style={{ display: 'block', textAlign: 'center', background: '#f0f5f7', color: '#5a3e1b', borderRadius: 8, padding: '14px 20px', fontSize: 15, fontWeight: 700, textDecoration: 'none' }}>
             Bekijk het e-book →
           </a>
         </div>
 
         {/* Gids aanvragen — subtiel */}
-        <p style={{ textAlign: 'center', fontSize: 13, color: C.grey, marginBottom: 12 }}>
+        <p style={{ textAlign: 'center', fontSize: 14, color: '#374151', marginBottom: 12 }}>
           Ik wil toch graag de complete gids of de waardevolle mails ontvangen —{' '}
-          <button onClick={onRequestGids} style={{ fontFamily: 'inherit', background: 'none', border: 'none', padding: 0, fontSize: 13, color: C.copperMid, fontWeight: 600, cursor: 'pointer', textDecoration: 'underline' }}>klik hier</button>
+          <button onClick={onRequestGids} style={{ fontFamily: 'inherit', background: 'none', border: 'none', padding: 0, fontSize: 14, color: C.copperMid, fontWeight: 700, cursor: 'pointer', textDecoration: 'underline' }}>klik hier</button>
         </p>
 
         <button onClick={onRestart} style={{ fontFamily: 'inherit', width: '100%', background: '#fff', color: C.grey, fontSize: 13, fontWeight: 600, padding: '11px 24px', borderRadius: 8, border: '1.5px solid #e8e3db', cursor: 'pointer', marginTop: 4 }}>Opnieuw beginnen</button>
